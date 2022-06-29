@@ -4,14 +4,18 @@
 # Пример: 1+2*3 => 7; (1+2)*3 => 9;
 
 
-to_solve = '1-2*3'
+to_solve = '2+14*3/2*20'
 
 
 def calc(text: str):
-    list_to_solve = []
-    for el in text:
-        list_to_solve.append(el)
-    for el in list_to_solve:
+    new_text = ''
+    for i in range(0, len(text)):
+        if text[i].isdigit():
+            new_text += text[i]
+        else:
+            new_text += ' ' + text[i] + ' '
+    list_to_solve = new_text.split(' ')
+    for el in list_to_solve:        # конвертируем численные элементы списка в int
         if el.isdigit():
             list_to_solve[list_to_solve.index(el)] = int(el)
     operations = 0      # количество математических операций в строке
@@ -20,43 +24,66 @@ def calc(text: str):
             operations += 1
     count = 0
     while count != operations:
-        for i in range(0, len(list_to_solve) - 1):
+        i = 0
+        # for i in range(0, len(list_to_solve)):
+        while i < len(list_to_solve):
             if list_to_solve.count('*') > 0:
-                for j in range(0, len(list_to_solve) - 1):
+                j = 0
+                while j < len(list_to_solve):
                     if list_to_solve[j] == '*':
                         new_element = list_to_solve[j - 1] * list_to_solve[j + 1]
                         list_to_solve.insert(j - 1, new_element)
                         list_to_solve.pop(j)
                         list_to_solve.pop(j)
                         list_to_solve.pop(j)
+                        j = 0
+                    else:
+                        j += 1
+                i = 0
                 break
             elif list_to_solve.count('/') > 0:
-                for j in range(0, len(list_to_solve) - 1):
+                j = 0
+                while j < len(list_to_solve):
                     if list_to_solve[j] == '/':
-                        new_element = list_to_solve[j - 1] / list_to_solve[j + 1]
+                        new_element = int(list_to_solve[j - 1]) / int(list_to_solve[j + 1])
                         list_to_solve.insert(j - 1, new_element)
                         list_to_solve.pop(j)
                         list_to_solve.pop(j)
                         list_to_solve.pop(j)
+                        j = 0
+                    else:
+                        j += 1
+                i = 0
                 break
             if list_to_solve.count('+') > 0:
-                for j in range(0, len(list_to_solve) - 1):
+                j = 0
+                while j < len(list_to_solve):
                     if list_to_solve[j] == '+':
                         new_element = list_to_solve[j - 1] + list_to_solve[j + 1]
                         list_to_solve.insert(j - 1, new_element)
                         list_to_solve.pop(j)
                         list_to_solve.pop(j)
                         list_to_solve.pop(j)
+                        j = 0
+                    else:
+                        j += 1
+                i = 0
                 break
             if list_to_solve.count('-') > 0:
-                for j in range(0, len(list_to_solve) - 1):
+                j = 0
+                while j < len(list_to_solve):
                     if list_to_solve[j] == '-':
                         new_element = list_to_solve[j - 1] - list_to_solve[j + 1]
                         list_to_solve.insert(j - 1, new_element)
                         list_to_solve.pop(j)
                         list_to_solve.pop(j)
                         list_to_solve.pop(j)
+                        j = 0
+                    else:
+                        j += 1
+                i = 0
                 break
+            i += 1
         count += 1
     result = list_to_solve[0]
     return result
