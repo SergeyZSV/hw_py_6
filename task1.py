@@ -4,7 +4,7 @@
 # Пример: 1+2*3 => 7; (1+2)*3 => 9;
 
 
-to_solve = '2+14*3/2*20'
+to_solve = '305+729-321*1000/5/6/7'
 
 
 def calc(text: str):
@@ -25,9 +25,9 @@ def calc(text: str):
     count = 0
     while count != operations:
         i = 0
-        # for i in range(0, len(list_to_solve)):
         while i < len(list_to_solve):
-            if list_to_solve.count('*') > 0:
+
+            if list_to_solve.count('*') > 0 or list_to_solve.count('/') > 0:
                 j = 0
                 while j < len(list_to_solve):
                     if list_to_solve[j] == '*':
@@ -37,14 +37,7 @@ def calc(text: str):
                         list_to_solve.pop(j)
                         list_to_solve.pop(j)
                         j = 0
-                    else:
-                        j += 1
-                i = 0
-                break
-            elif list_to_solve.count('/') > 0:
-                j = 0
-                while j < len(list_to_solve):
-                    if list_to_solve[j] == '/':
+                    elif list_to_solve[j] == '/':
                         new_element = int(list_to_solve[j - 1]) / int(list_to_solve[j + 1])
                         list_to_solve.insert(j - 1, new_element)
                         list_to_solve.pop(j)
@@ -54,8 +47,8 @@ def calc(text: str):
                     else:
                         j += 1
                 i = 0
-                break
-            if list_to_solve.count('+') > 0:
+
+            elif list_to_solve.count('+') > 0 or list_to_solve.count('-') > 0:
                 j = 0
                 while j < len(list_to_solve):
                     if list_to_solve[j] == '+':
@@ -65,14 +58,7 @@ def calc(text: str):
                         list_to_solve.pop(j)
                         list_to_solve.pop(j)
                         j = 0
-                    else:
-                        j += 1
-                i = 0
-                break
-            if list_to_solve.count('-') > 0:
-                j = 0
-                while j < len(list_to_solve):
-                    if list_to_solve[j] == '-':
+                    elif list_to_solve[j] == '-':
                         new_element = list_to_solve[j - 1] - list_to_solve[j + 1]
                         list_to_solve.insert(j - 1, new_element)
                         list_to_solve.pop(j)
@@ -82,7 +68,6 @@ def calc(text: str):
                     else:
                         j += 1
                 i = 0
-                break
             i += 1
         count += 1
     result = list_to_solve[0]
